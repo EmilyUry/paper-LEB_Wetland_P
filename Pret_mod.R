@@ -2,7 +2,7 @@
 
 library(ggplot2)
 library(cowplot)
-library(tidyr) 
+library(tidyverse) 
 library(ggpmisc)
 
 setwd("C:/Users/uryem/OneDrive - University of Waterloo/Desktop/LEB_Wetland_P/Datasets")
@@ -13,6 +13,8 @@ setwd("C:/Users/uryem/OneDrive - University of Waterloo/Desktop/LEB_Wetland_P/Da
 x <- read.csv("Monthly_P_Lit.csv")
 head(x)
 
+
+x$Short_ID <- as.factor(x$Short_ID)
 x$Short_Ref <- as.factor(x$Short_Ref)
 levels(x$Short_Ref)
 x$HLR_m_mo <- x$Monthly_Inflow_m3_month/x$SA_m2
@@ -200,3 +202,57 @@ x %>%
   #ylim(0, 1) +
   geom_abline(slope = 1)
 cor.test(x$SRP_retention, x$mod.SRPret_g_m2, method = "pearson")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##### old stuff
+
+plot(x$HLR_m_mo, x$TP_Retention_percent, log = "x", pch = 21,
+     bg = x$Short_Ref)
+legend("bottomleft", legend = levels(x$Short_Ref), pch = 21, 
+       pt.bg = c(1:4))
+abline(h=0)
+
+plot(x$HLR_m_mo, x$TP_Retention_percent, log = "x", pch = 21,
+     bg = x$Short_ID, col = x$Short_Ref, cex = 2)
+legend("bottomleft", legend = levels(x$Short_ID), pch = 21, 
+       pt.bg = c(1:20))
+legend("bottomright", legend = levels(x$Short_Ref), pch = 21, 
+       col = c(1:4))
+# ON <- x[which(x$Short_Ref == 18),]
+# ON$Short_ID <- as.factor(ON$Short_ID)
+levels(ON$Short_ID)
+
+ON$Wetland_ID <- as.factor(ON$Wetland_ID)
+plot(ON$HLR_m_mo, ON$TP_Retention_percent, log = "x", pch = 16,
+     col = c("red", "black", "blue", "purple", "orange", "green", "cyan", "pink")[ON$Wetland_ID])
+legend("bottomleft", legend = levels(ON$Wetland_ID), pch = 16, 
+       col = c("red", "black", "blue", "purple", "orange", "green", "cyan", "pink"))
+
+ON$CAWA <- ON$Catchment_area/ON$SA_m2*10000
+hist(ON$CAWA)
+table(ON$Wetland_ID, ON$CAWA)
+
+
+x$CAWA <- x$Catchment_area/x$SA_m2*10000
+x %>%
+  group_by(Short_ID) %>%
+  summarise(mean.CAWA = mean(CAWA))
