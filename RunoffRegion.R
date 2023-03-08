@@ -112,3 +112,13 @@ map <- ggplot() + geom_sf(data = HUC4, aes(fill = name), show.legend = FALSE) +
 plot_grid(SC, map, N, W, S, E, nrow = 2)
 
 
+
+
+summary(data$LEB)
+quantile(data$LEB, probs = c(0.1, 0.5, 0.9))
+quantile(data$StClair, probs = c(0.1, 0.5, 0.9))
+quantile(data$Western, probs = c(0.1, 0.5, 0.9))
+quantile(data$Southern, probs = c(0.1, 0.5, 0.9))
+quantile(data$Eastern, probs = c(0.1, 0.5, 0.9))
+quantile(data$Northern, probs = c(0.1, 0.5, 0.9))
+
