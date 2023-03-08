@@ -38,17 +38,56 @@ PR <- 6.77-27.8*log10(HLR)    # P retention (%), based off empirical
 ###########  Calculate P retention % from run-off -- 12 month
 ###
 
-y.ro <- c(4,4,20,18,15,6,3,3,10,11,6,2)     # one year of runoff est. in mm
+y.ro <- c(0.000014,0.56,74.4,111,5.8,4.98,4.28,4.23,4.69,6.54,17.5,5)     # 30-year median LEB runoff in mm
 y.ro <- y.ro/1000                           # runoff in m
-month <- c("Jan", "Feb", "March", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
-           "Oct", "Nov", "Dec")
 y.ro.v <- y.ro*CA10                         # runoff volume in m3/month
 y.HLR <- y.ro.v/WA                          # Hydraulic loading rate in m/month
 PR <- 6.77-27.8*log10(y.HLR)                # P retention (%), based off empirical 
-
+PR <- ifelse(PR > 100, 100, PR)             # set cap so PR cannot exceed 100 %
 
 #output data table
+month <- factor(c("Jan", "Feb", "March", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+                  "Oct", "Nov", "Dec"), levels = c("Jan", "Feb", "March", "Apr", 
+                  "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec") )
 data <- data.frame(month, PR)
+
+
+
+lab2 <- c("Jan", " ", " ", "Apr", " ", " ", "Jul", " ", " ", 
+          "Oct", " ", " ")
+
+small <- ggplot(data, aes(x = month, y = PR))+
+  geom_bar(stat = 'identity', fill = "#a6d854", color = "black") +
+  xlab(" ") +
+  ylab("P Retention (%)") +
+  theme_bw() +
+  scale_x_discrete(labels = lab2)
+
+
+medium <- ggplot(data, aes(x = month, y = PR))+
+  geom_bar(stat = 'identity', fill = "#66c2a5", color = "black") +
+  xlab(" ") +
+  ylab("P Retention (%)") +
+  theme_bw() +
+  scale_x_discrete(labels = lab2)
+
+
+
+large <- ggplot(data, aes(x = month, y = PR))+
+  geom_bar(stat = 'identity', fill = "#8da0cb", color = "black") +
+  xlab(" ") +
+  ylab("P Retention (%)") +
+  theme_bw() +
+  scale_x_discrete(labels = lab2)
+
+
+
+
+small
+medium
+large
+
+
 
 
 
