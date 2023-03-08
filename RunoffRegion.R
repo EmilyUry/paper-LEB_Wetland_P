@@ -122,3 +122,13 @@ quantile(data$Southern, probs = c(0.1, 0.5, 0.9))
 quantile(data$Eastern, probs = c(0.1, 0.5, 0.9))
 quantile(data$Northern, probs = c(0.1, 0.5, 0.9))
 
+
+summary <- data %>%
+  group_by(Month) %>%
+  summarise(median = median(LEB))
+
+
+median_LEB <- summary$median
+
+
+
